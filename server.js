@@ -36,10 +36,7 @@ app.get('/', (req, res) => {
 });
 
 // Middleware
-app.use(cors({
-  origin:  [process.env.FRONTEND_URL], // allow your frontend dev server
-  credentials: true,               // allow cookies/auth headers
-}));
+
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/auth', authRoutes);
