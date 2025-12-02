@@ -4,17 +4,14 @@ const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth.js');
 const dotenv = require('dotenv');
-dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+dotenv.config();
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.error(err));
 
