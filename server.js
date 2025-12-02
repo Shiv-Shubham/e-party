@@ -135,4 +135,4 @@ io.on("connection", (socket) => {
 });
 });
 
-server.listen(3000, () => console.log("server started at ",process.env.PORT));
+server.listen(process.env.PORT, () => console.log("server started at ",process.env.PORT));
