@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eparty Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f5; /* light grey */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+    .container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      width: 48%;
+      padding: 12px;
+      margin: 10px 1%;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button.signup {
+      background: #4caf50;
+      color: white;
+    }
+    button.signup:hover {
+      background: #43a047;
+    }
+    button.login {
+      background: #2196f3;
+      color: white;
+    }
+    button.login:hover {
+      background: #1976d2;
+    }
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+    .message.success {
+      background: #c8e6c9;
+      color: #256029;
+    }
+    .message.error {
+      background: #ffcdd2;
+      color: #b71c1c;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome to Eparty</h2>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <div>
+      <button class="signup" onclick="signup()">Sign Up</button>
+      <button class="login" onclick="login()">Log In</button>
+    </div>
+    <div id="messageBox" class="message"></div>
+  </div>
+
+  <script>
+    function showMessage(text, type) {
+      const box = document.getElementById("messageBox");
+      box.textContent = text;
+      box.className = "message " + type;
+      box.style.display = "block";
+    }
+
+    async function signup() {
+      const res = await fetch('/auth/signup', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username.value, password:password.value})
+      });
+      const data = await res.json();
+      if(data.message){
+        showMessage(data.message, "success");
+      } else {
+        showMessage(data.error, "error");
+      }
+    }
+
+    async function login() {
+      const res = await fetch('/auth/login', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username.value, password:password.value})
+      });
+      const data = await res.json();
+      if(data.token){
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('role', data.role);
+        showMessage("Login successful! Redirecting...", "success");
+        setTimeout(()=> window.location.href = '/index.html', 1000);
+      } else {
+        showMessage(data.error, "error");
+      }
+    }
+  </script>
+</body>
+</html>

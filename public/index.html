@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Realtime Chat</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; font-family: Arial, sans-serif; height: 100vh; margin: 0; }
+    #sidebar {
+      width: 200px;
+      background: #f8f8f8;
+      padding: 10px;
+      border-right: 1px solid #ccc;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    #logoutBtn {
+      margin-bottom: 10px;
+      padding: 8px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #messages {
+      flex: 1;
+      list-style: none;
+      padding: 10px;
+      margin: 0;
+      overflow-y: auto;
+    }
+    #messages li {
+      margin: 6px 0;
+      padding: 6px 10px;
+      border-radius: 8px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+    .group-msg { background: #e1f5fe; }
+    .private-msg { background: #ffe0b2; color: #b71c1c; font-style: italic; }
+    .self-msg { background: #c8e6c9; align-self: flex-end; }
+    .system-msg { background: #eeeeee; color: #616161; text-align: center; font-size: 0.9em; }
+    #form {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+      background: #f2f2f2;
+    }
+    #form input, #form select, #form button {
+      margin-right: 5px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #form input { flex: 1; }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <button id="logoutBtn">Logout</button>
+    <h3>Online Users</h3>
+    <ul id="users"></ul>
+  </div>
+  <div id="chat">
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" placeholder="Type a message..." />
+      <select id="recipient">
+        <option value="all">All</option>
+      </select>
+      <button>Send</button>
+    </form>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
